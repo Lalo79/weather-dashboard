@@ -1,0 +1,10 @@
+.button {
+    background-color: aqua;
+    width: 100px;
+    padding: 3px;
+    text-align: center;
+}
+
+.button:hover {
+    cursor: pointer;
+}
