@@ -14,51 +14,70 @@
     crossorigin="anonymous"
     ></script>
 
+    <script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"
+    ></script>
+
     <link
     rel="stylesheet"
     href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
     />
 
 
-
-
     <title>Weather Dashboard</title>
 </head>
 <body>
 
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-          <h1 class="display-4">Weather Dashboard</h1>
-          <!-- <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p> -->
-        </div>
-      </div>
+    
 
-    <!-- <h1>Weather Dashboard</h1> -->
+    <!-- <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="">Weather Dashboard</h1>
+        </div>
+      </div> -->
+
+
+    <div class="banner">
+      <!-- <img src="./images/header_012.jpg" class="img-fluid " alt="Responsive image"> -->
+      <img src="./images/header_012.jpg" class="banner_pic" alt="Responsive image">
+      <p class="textWD">Weather Dashboard</p>
+    </div>
 
     <div class="container">
-        <div>
-            <form id="searchForm">
+    
+        <div class="row">
+
+            <!-- City Query Results -->
+            <div class="col-md-8">
+
+              <!-- Search City Form -->
+              <form id="searchForm">
 
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                      <span class="input-group-text" id="inputGroup-sizing-default">City</span>
+                        <span class="input-group-text" id="inputGroup-sizing-default">City</span>
                     </div>
                     <input type="text" class="form-control" name="inputCity" id="inputCity" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                   </div>
 
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                      <span class="input-group-text" id="inputGroup-sizing-default">Country</span>
+                        <span class="input-group-text" id="inputGroup-sizing-default">Country</span>
                     </div>
                     <input type="text" class="form-control" id="inputCountry" name="inputCountry" name="inputCity" id="inputCity" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                  </div>
-
-               <div>
-                    <button class="btn btn-primary" type="submit">Search</button>                
                 </div>
+
+                <div>
+                    <button class="btn btn-primary btn-lg btn-block p-1" type="submit">Search</button>                
+                </div>
+
+                <div>
+                    <p><small>*Specify Country for a more specific search. Country is an optional field</small></p>
+                </div>
+
             </form>
 
-            <div>
                 <table class="table table-sm table-hover">
                     <thead>
                       <tr>
@@ -71,94 +90,46 @@
                     <tbody id="cityOptions"></tbody>
                 </table>
             </div>
-           
+
+            <!-- Recent Searches -->
+            <div class="col-md-4" >
+                <div class="shadow-none p-2 mb-2 bg-secondary rounded text-center" id="recentSearchTitle">Recent Searches</div>
+                <div id="recentSearches"></div>
+            </div>
         </div>
         
     </div>
 
     
-    <div class="container">
+    <div id="displayControl" hidden>
+      <div class="container" id="mainContent">
+          <div class="alert alert-info" id="currentWeatherAlert"></div>
 
-        <div class="alert alert-info">
-            Current Wather Conditions
-        </div>
-
-        <div class="card mb-3" style="max-width: 540px;">
-            <div class="row no-gutters">
-              <div class="col-md-4">
-                <img src="" class="card-img" alt="" id="currentIcon">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title" id="currentTitle"></h5>
-                  <p class="card-text" id="currenTemp"></p>
-                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+          <div class="card mb-3" style="max-width: 540px;">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img src="" class="card-img" alt="" id="currentIcon">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title" id="currentTitle"></h5>
+                    <p class="card-text" id="currenTemp"></p>
+                    <p class="card-text" id="currentHumidity"></p>
+                    <p class="card-text" id="currentWind"></p>
+                    <p class="card-text indexUV" id="currentUV"></p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+      </div>
+
+      <div class="container">
+
+          <div class="alert alert-info">5 Day Forecast</div>
+          <div id="fiveDayFcstDiv" class="card-group"></div>
+      
+      </div>
     </div>
-
-    <div class="container">
-
-        <div class="alert alert-info">
-            5 Day Forecast
-        </div>
-
-          <div class="card-group">
-            <div class="card">
-              <img src="" class="card-img-top" alt="">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">Last updated 3 mins ago</small>
-              </div>
-            </div>
-            <div class="card">
-                <img src="" class="card-img-top" alt="">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-muted">Last updated 3 mins ago</small>
-                </div>
-            </div>
-            <div class="card">
-              <img src="" class="card-img-top" alt="">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">Last updated 3 mins ago</small>
-              </div>
-            </div><div class="card">
-                <img src="" class="card-img-top" alt="">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-muted">Last updated 3 mins ago</small>
-                </div>
-              </div><div class="card">
-                <img src="" class="card-img-top" alt="">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-muted">Last updated 3 mins ago</small>
-                </div>
-              </div>
-          </div>
-        
-
-    </div>
-
 
     <script src="../config.js"></script>    
     <script src="./js/country_catalog.js"></script>

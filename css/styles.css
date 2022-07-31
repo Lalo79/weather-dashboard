@@ -1,15 +1,60 @@
-/* .button {
-    background-color: aqua;
-    width: 100px;
-    padding: 3px;
-    text-align: center;
+.banner {
+    display: flex;
+    position: relative;
+    /* justify-content: center; */
+    margin-bottom: 20px;
+    max-height: 250px;
 }
-*/
+
+.textWD {
+    position: absolute;
+    top: 40px;
+    left: 80px;
+    color: rgb(44, 44, 44);
+    font-size: 60px;
+    font-weight: bold;
+
+}
+
 
 .button:hover {
     cursor: pointer;
 }
 
+.alert {
+    font-size: x-large;
+}
+
 #currenTemp {
     font-size:xx-large;
+}
+
+#mainContent {
+    margin-top: 20px;
+}
+
+.indexUV {
+    /* background-color: rgb(158, 206, 86); */
+    color: white;
+    width: 150px;
+    padding: 2px;
+    text-align: center;
+}
+
+#recentSearchTitle {
+    color: white;
+    font-weight: bold;
+    /* font-size: small; */
+}
+
+.shadow-sm {
+    font-size: 14px;
+}
+
+#recentSearches div:hover {
+    cursor: pointer;
+}
+
+.display-4 {
+    /* font-weight: bold; */
 }
