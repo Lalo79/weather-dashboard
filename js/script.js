@@ -1,9 +1,10 @@
 
 var appid = '&appid='
-var apiKey = config.owappkey;
+var apiKey;
 
 var urlCityGeocoding = "http://api.openweathermap.org/geo/1.0/direct?q="
 
+var submitApiKey = $('#submitApiKey');
 var searchForm = $("#searchForm");
 var searchCity = $('input[name="inputCity"]');
 var searchCountry = $('input[name="inputCountry"]');
@@ -11,13 +12,26 @@ var cityOptions = $("#cityOptions");
 var recentCityOptions = $('#recentSearches')
 
 var cityName;
+var apiKey;
+var savedApiKey;
 
 var temp;
 
-function verifyApiKey () {
+
+window.onload = (event) => {
+    recentCitylist = JSON.parse(localStorage.getItem("recentCitylist"));
+    
+    if (recentCitylist != null) { populateRecentCity(recentCitylist);}
     savedApiKey = localStorage.getItem("savedApiKey")
-    if (savedApiKey==null) {
+    if (savedApiKey!=null) {document.querySelector('.apiKey').hidden = true;}
+};
+
+
+function verifyApiKey () {
+    apiKey = localStorage.getItem("savedApiKey")
+    if (apiKey==null) {
         alert ('There is no API Key to retreive Weather Data')
+        document.querySelector('.apiKey').hidden = false;
         return false;
     } else {
         return true;
@@ -60,32 +74,62 @@ function getCityLocation(cityName){
 }
 
 
+function submitApiKeyFunc(event) {
+    event.preventDefault();
+    apiKey = $('#inlineFormInput').val();
+
+    if (apiKey != '') {
+        apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=London&appid=' + apiKey;
+
+        fetch(apiUrl)
+            .then(function(response){
+                console.log(apiKey);
+                if (response.ok) {
+                    alert('AppiKey Saved Succesfyully');
+                    document.querySelector('.apiKey').hidden = true;
+                    localStorage.setItem('savedApiKey', apiKey);
+
+                } else {
+                    alert('Please Enter a Valid API Key')
+                }
+            })
+    } else {
+        alert ('Please Enster an API Key');
+    }
+}
+
 
 var submitSearch = function (event) {
     
+    if (verifyApiKey()){
     
-    cityOptions.html("");
-    event.preventDefault();
-    
-    var textQuery = searchCity.val();
+        cityOptions.html("");
+        event.preventDefault();
+        
+        var textQuery = searchCity.val();
 
-    if (searchCity.val()) {
-        if (searchCountry.val()){
-        var countryText = searchCountry.val();
-        countryText = searchCountry.val()[0].toUpperCase() + searchCountry.val().substring(1);
+        if (searchCity.val()) {
+            if (searchCountry.val()){
+            var countryText = searchCountry.val();
+            countryText = searchCountry.val()[0].toUpperCase() + searchCountry.val().substring(1);
 
-        var countryCode = countryDB.filter(param => { return param.label == countryText})[0].code;};
+            var countryCode = countryDB.filter(param => { return param.label == countryText})[0].code;};
 
-        textQuery += ",," + countryCode;
-        console.log(textQuery);
-    
-        getCityLocation(textQuery);
-    } else {
-        alert ('Please Enter a City Name')
-    }
+            textQuery += ",," + countryCode;
+            console.log(textQuery);
+        
+            getCityLocation(textQuery);
+        } else {
+            alert ('Please Enter a City Name')
+        }
   
+    }
+
 };
 
+// Sumbit API Key
+
+submitApiKey.on('submit', submitApiKeyFunc);
 
 // Search City
 searchForm.on('submit', submitSearch);
@@ -94,21 +138,26 @@ searchForm.on('submit', submitSearch);
 
 // Select City from City Query
 cityOptions.on('click', "tr" , function (event) {
-    var latitude = $(event.target).parent().attr('data-lat');
-    var longitude = $(event.target).parent().attr('data-lon');
-    var cityName = $(event.target).parent().children().eq(1).text();
-    var stateName = $(event.target).parent().children().eq(2).text();
-    var countryName = $(event.target).parent().children().eq(3).text();
-    
-    // var countryName = countryDB.filter(param => {return param.code == $(event.target).parent().children().eq(3).text()});
-    // countryName = countryName[0].label;
-    
-    var coord = [latitude, longitude];
-    var info = [cityName, stateName, countryName];
 
-    queryWeatherConditions(coord, info);
+    if (verifyApiKey()) {
+        
+        var latitude = $(event.target).parent().attr('data-lat');
+        var longitude = $(event.target).parent().attr('data-lon');
+        var cityName = $(event.target).parent().children().eq(1).text();
+        var stateName = $(event.target).parent().children().eq(2).text();
+        var countryName = $(event.target).parent().children().eq(3).text();
+        
+        // var countryName = countryDB.filter(param => {return param.code == $(event.target).parent().children().eq(3).text()});
+        // countryName = countryName[0].label;
+        
+        var coord = [latitude, longitude];
+        var info = [cityName, stateName, countryName];
 
-    saveRecentCity(coord, info);
+        queryWeatherConditions(coord, info);
+
+        saveRecentCity(coord, info);
+
+    }
 
 });
 
@@ -118,6 +167,8 @@ var SelectionDetails;
 
 // Select City from Recent Cities List
 recentCityOptions.on('click', "div" , function (event) {
+
+    if (verifyApiKey()) {
 
     recentCitylist = JSON.parse(localStorage.getItem("recentCitylist"));
     
@@ -138,6 +189,7 @@ recentCityOptions.on('click', "div" , function (event) {
 
     queryWeatherConditions(coord, info);
 
+    }
     
 });
 
@@ -224,14 +276,6 @@ function queryWeatherConditions(coord, info) {
 
 }
 
-
-
-window.onload = (event) => {
-    recentCitylist = JSON.parse(localStorage.getItem("recentCitylist"));
-    
-    if (recentCitylist != null) { populateRecentCity(recentCitylist);}
-
-};
 
 
 function saveRecentCity(coordinates, info) {
