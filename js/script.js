@@ -1,5 +1,6 @@
 
 var appid = '&appid='
+var apiKey = config.owappkey;
 
 var urlCityGeocoding = "http://api.openweathermap.org/geo/1.0/direct?q="
 
@@ -13,11 +14,19 @@ var cityName;
 
 var temp;
 
-
+function verifyApiKey () {
+    savedApiKey = localStorage.getItem("savedApiKey")
+    if (savedApiKey==null) {
+        alert ('There is no API Key to retreive Weather Data')
+        return false;
+    } else {
+        return true;
+    }   
+}
 
 function getCityLocation(cityName){
 
-    var requestUrl = urlCityGeocoding + cityName + "&limit=10" + appid + config.owappkey;
+    var requestUrl = urlCityGeocoding + cityName + "&limit=10" + appid + apiKey;
     console.log(requestUrl);
 
     fetch(requestUrl)
@@ -53,6 +62,8 @@ function getCityLocation(cityName){
 
 
 var submitSearch = function (event) {
+    
+    
     cityOptions.html("");
     event.preventDefault();
     
@@ -136,8 +147,7 @@ function queryWeatherConditions(coord, info) {
 
     document.querySelector('#displayControl').hidden = false;
 
-    weatherUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + coord[0] + '&lon=' + coord[1] + '&exclude=alerts&units=metric&appid=' + config.owappkey;
-
+    weatherUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + coord[0] + '&lon=' + coord[1] + '&exclude=alerts&units=metric&appid=' + apiKey;
     $('#currentWeatherAlert').text('Current Weather Conditions - ' + moment().format('ddd, MMM Do YYYY'))
 
     fetch(weatherUrl)

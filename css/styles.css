@@ -6,6 +6,19 @@
     max-height: 250px;
 }
 
+.apiKey {
+    border-radius: 8px;
+    background-color: rgba(255, 102, 102, 0.85);
+}
+
+#apiText {
+    color: rgb(116, 0, 0);
+    font-size: larger;
+    text-align: center;
+    
+    /* background-color: aqua; */
+}
+
 .textWD {
     position: absolute;
     top: 40px;
