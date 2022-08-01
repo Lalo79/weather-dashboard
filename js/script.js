@@ -2,7 +2,7 @@
 var appid = '&appid='
 var apiKey;
 
-var urlCityGeocoding = "http://api.openweathermap.org/geo/1.0/direct?q="
+var urlCityGeocoding = "https://api.openweathermap.org/geo/1.0/direct?q="
 
 var submitApiKey = $('#submitApiKey');
 var searchForm = $("#searchForm");
@@ -210,7 +210,7 @@ function queryWeatherConditions(coord, info) {
         console.log(weatherData);       
 
         if (weatherData){
-            document.getElementById("currentIcon").src = "http://openweathermap.org/img/wn/"+ weatherData.current.weather[0].icon +"@2x.png";
+            document.getElementById("currentIcon").src = "https://openweathermap.org/img/wn/"+ weatherData.current.weather[0].icon +"@2x.png";
             
             temp = info;
 
@@ -251,7 +251,7 @@ function queryWeatherConditions(coord, info) {
                 var dailyFcstDiv = $('<div>');
                 dailyFcstDiv.addClass("card");
 
-                var iconImg = "http://openweathermap.org/img/wn/"+ weatherData.daily[i].weather[0].icon +"@2x.png";
+                var iconImg = "https://openweathermap.org/img/wn/"+ weatherData.daily[i].weather[0].icon +"@2x.png";
                 dailyFcstDiv.append('<img src="' + iconImg + '" class="card-img-top" alt="">');
 
                 dailyFcstDiv.append('<div class="card-body" id="card_0' + dayCount + '">');
